@@ -1,6 +1,7 @@
 #from agent.tools import read_file
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
 from langgraph.constants import END
 from langgraph.graph import StateGraph
 #from langgraph.prebuilt import create_react_agent
@@ -13,6 +14,7 @@ from agent.tools import *
 
 load_dotenv()
 
+#llm = ChatOllama(model="qwen2.5:1.5b")
 llm = ChatOpenAI(model= "gpt-4o")
 
 def planner_agent(state: dict) -> dict:

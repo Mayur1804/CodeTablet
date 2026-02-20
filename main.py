@@ -4,6 +4,10 @@ import json
 import time
 
 API_URL = "http://127.0.0.1:8000/build/stream"
+DOWNLOAD_URL = "http://127.0.0.1:8000/download"
+project_name_holder = {"name": None}
+
+
 
 # ---------------- PAGE CONFIG ---------------- #
 st.set_page_config(
@@ -54,6 +58,9 @@ if st.button("Build Project", type="primary") and user_prompt:
                             data = json.loads(decoded[6:])
                             node = data.get("node")
 
+                            if "project_name" in data:
+                                project_name_holder["name"] = data["project_name"]
+
                             if node == "planner":
                                 planner_placeholder.info("📝 Planner: Creating project structure...")
 
@@ -73,5 +80,23 @@ if st.button("Build Project", type="primary") and user_prompt:
     
     with col2:
         st.subheader("Project Status")
-        st.success("Your project has been generated in the `generated_project` directory.")
+        st.success("Your project has been generated.")
+
+        try:
+            if project_name_holder["name"]:
+
+                download_url = f"http://127.0.0.1:8000/download?project_name={project_name_holder['name']}"
+
+                download = requests.get(download_url)
+
+                st.download_button(
+                    label="⬇️ Download Project ZIP",
+                    data=download.content,
+                    file_name=project_name_holder["name"] + ".zip",
+                    mime="application/zip"
+                )
+
+        except:
+            st.error("Download failed")
+
         st.balloons()

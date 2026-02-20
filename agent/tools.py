@@ -6,7 +6,13 @@ from typing import Tuple
 from langchain_core.tools import tool
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-PROJECT_ROOT = pathlib.Path.cwd() / f"generated_project_{timestamp}"
+PROJECT_ROOT = None
+
+def set_project_root(path: str):
+    global PROJECT_ROOT
+    PROJECT_ROOT = pathlib.Path(path)
+    PROJECT_ROOT.mkdir(parents=True, exist_ok=True)
+
 
 
 def safe_path_for_project(path: str) -> pathlib.Path:

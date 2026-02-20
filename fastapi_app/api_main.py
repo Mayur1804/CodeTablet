@@ -11,4 +11,4 @@ app.include_router(router)
 
 @app.get("/")
 def home():
-    return {"message": "LangGraph Agent Running 🚀"}
+    return {"message": "CodeTablet Agent Running "}

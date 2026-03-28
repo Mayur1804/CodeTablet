@@ -3,8 +3,12 @@ import requests
 import json
 import time
 
-API_URL = "http://127.0.0.1:8000/build/stream"
-DOWNLOAD_URL = "http://127.0.0.1:8000/download"
+LOCAL_IP = "127.0.0.1"
+EC2_IP = "100.48.95.121"
+
+
+API_URL = f"http://{EC2_IP}:8000/build/stream"
+DOWNLOAD_URL = f"http://{EC2_IP}:8000/download"
 project_name_holder = {"name": None}
 
 
@@ -62,13 +66,13 @@ if st.button("Build Project", type="primary") and user_prompt:
                                 project_name_holder["name"] = data["project_name"]
 
                             if node == "planner":
-                                planner_placeholder.info("📝 Planner: Creating project structure...")
+                                planner_placeholder.info("Planner: Creating project structure...")
 
                             elif node == "architect":
-                                architect_placeholder.success("🏗️ Architect: Mapping file requirements...")
+                                architect_placeholder.success("Architect: Mapping file requirements...")
 
                             elif node == "coder":
-                                coder_placeholder.write("🛠️ Coder: Writing files...")
+                                coder_placeholder.write("Coder: Writing files...")
 
                             time.sleep(0.05)
 
@@ -85,7 +89,7 @@ if st.button("Build Project", type="primary") and user_prompt:
         try:
             if project_name_holder["name"]:
 
-                download_url = f"http://127.0.0.1:8000/download?project_name={project_name_holder['name']}"
+                download_url = f"{DOWNLOAD_URL}?project_name={project_name_holder['name']}"
 
                 download = requests.get(download_url)
 
